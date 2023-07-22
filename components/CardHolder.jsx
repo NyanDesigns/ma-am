@@ -15,8 +15,8 @@ const CardHolder = () => {
   //DISPLAY OPTIONS
   const vhBP = useBreakpointValue(
     {
-      base: '85vh',
-      sm: '85vh',
+      base: '90vh',
+      sm: '90vh',
       md: '25vh',
       lg: '20vh'
     },
