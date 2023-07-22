@@ -6,8 +6,8 @@ const AppContainer = ({ children }) => {
   //DISPLAY OPTIONS
   const vhBP = useBreakpointValue(
     {
-      base: '90vh',
-      sm: '90vh',
+      base: '80vh',
+      sm: '80vh',
       md: '55vh',
       lg: '70vh'
     },

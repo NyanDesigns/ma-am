@@ -15,8 +15,8 @@ const CardHolder = () => {
   //DISPLAY OPTIONS
   const vhBP = useBreakpointValue(
     {
-      base: '90vh',
-      sm: '90vh',
+      base: '100vh',
+      sm: '100vh',
       md: '25vh',
       lg: '20vh'
     },
@@ -175,17 +175,20 @@ const CardHolder = () => {
         w="100vw"
         h={vhBP}
         minH={minvhBP}
+        border="1"
+        borderTopWidth="4px"
+        borderColor="accent"
       >
         {/* MAIN CARD STACK */}
         <Flex 
           h="100%"
+          maxH="600px"
           w="100%"
+          border="1"
+          borderTopWidth="2px"
           alignItems="center"
           flexDirection={stackFlex}
           gap={smGapSpacingBP}
-          border="1"
-          borderTopWidth="4px"
-          borderColor="accent"
           paddingInline={8}
           paddingBlock={vPadingBP}
         >
