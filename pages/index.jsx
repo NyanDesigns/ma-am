@@ -31,12 +31,12 @@ const initValues = { name: "", email: "", subject: "", message: "" };
 const serviceOptions = [
   {
     name: "3D-Printing",
-    materials: ["PLA", "ABS", "PTEG", "TPU"],
+    materials: ["PLA", "ABS", "PTEG", "TPU", "Bring your Own"],
     colors: ["White", "Gray", "Black"]
   },
   {
     name: "Laser-Cutting",
-    materials: ["Chipboard"],
+    materials: ["Chipboard", "Bring your Own"],
     colors: ["White", "Gray"]
   },
 ];
@@ -387,10 +387,10 @@ return (
                 <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
               {/* Select Material Color */}
-              <FormControl isRequired isInvalid={touched.color && !values.color} >
+              <FormControl>
                 <Select 
                   name="color"
-                  placeholder="Select a Material Color*"
+                  placeholder="Select a Material Color"
                   errorBorderColor="red.300"
                   variant='filled'
                   value={values.color}
@@ -409,7 +409,6 @@ return (
                     </>
                   )}
                 </Select>
-                <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
               {/* File */}
               <FormControl 
@@ -449,7 +448,7 @@ return (
                       {selectedFiles.length > 0 ? "Files Selected" : "Select Files *"}
                     </Text>
                     <Text as="s1">
-                      {`Selected: ${selectedFiles.length}/${fileLimit}, Max 10 MB each`}
+                      {`Selected: ${selectedFiles.length}/${fileLimit} (@ Max 10MB)`}
                     </Text>
                   </Center>
                 </Button>
