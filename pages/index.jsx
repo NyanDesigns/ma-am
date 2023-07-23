@@ -109,7 +109,6 @@ export default function Home() {
     // Add the selected file to the selectedFiles array
     setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, file]);
   };
-  
   const onSubmit = async () => {
     setState((prev) => ({
       ...prev,
@@ -470,7 +469,7 @@ return (
               borderColor="accent"
               isLoading={isLoading}
               disabled={
-                !values.name || !values.email || !values.subject || !values.message || !values.color
+                !values.name || !values.email || !values.subject || !values.message
               }
               onClick={onSubmit}
             >
