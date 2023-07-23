@@ -21,8 +21,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-
-    <ChakraProvider theme={theme}>    
+ 
       {
         loading ?
         <>
@@ -37,15 +36,16 @@ function MyApp({ Component, pageProps }) {
         </>
         :
         <>
+        <ChakraProvider theme={theme}>   
         <Header/>
         <Hero>
           <Component {...pageProps} />
         </Hero>
         <CardHolder/>
         <Footer/>
+        </ChakraProvider>
         </>
       }
-    </ChakraProvider>
     </>
   );
 }
