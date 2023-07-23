@@ -16,7 +16,9 @@ import {
   Input,
   Button,
   useDisclosure,
-  useBreakpointValue
+  useBreakpointValue,
+  Box,
+  Center
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { sendContactForm } from "../lib/api";
@@ -39,10 +41,12 @@ const serviceOptions = [
 //States
 const initState = { isLoading: false, error: "", values: initValues };
 
+
 //App-Function
 export default function Home() {
 //Values
   const toast = useToast();
+  const radius = "20px"
 //States
   const [state, setState] = useState(initState);
   const {values, isLoading, error} = state;
@@ -159,10 +163,19 @@ return (
       <ModalContent
         background="primary"
         w="90%"
+        border="1px"
+        borderBottom="1px"
+        borderLeft="2px"
+        borderTop="2px"
+        borderRight="1px"
+        borderColor="secondary"
+        rounded={radius}
       >
 
-        {/* CLOSE SQUARE BUTTON */}   
+        {/* HEADER - TITLE AND CLOSE BUTTON */}   
         <ModalHeader>
+          {/* Form Heading */}
+          <Text as="t2" mb={4} opacity= "1">Order Details</Text>
           <ModalCloseButton />
         </ModalHeader>
 
@@ -174,15 +187,13 @@ return (
             gap={2}
             mb={4}
           >
-            {/* Form Heading */}
-            <Text as="t2" mb={4} opacity= "1">Order Details</Text>
             {/* Display error message */}
             {error && (
               <Text color="red.300" my={4} fontSize="xl">
                 {error}
               </Text>
             )}
-            {/* Name */}
+              {/* Name */}
               <FormControl isRequired isInvalid={touched.name && !values.name} >
                 <Input
                   type="text"
@@ -296,17 +307,44 @@ return (
                 <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
               {/* File */}
-              <FormControl isRequired mb={5}>
-                <Input
-                  type="file"
-                  name="file"
-                  errorBorderColor="red.300"
-                  value={values.file}
-                  onChange={handleChange}
-                  onBlur={onBlur}
-                />
+              <FormControl 
+                isRequired 
+                mb={5}
+                justifyItems="center"
+              >
+                <Button
+                  w="100%"
+                  h="75px"
+                  border="2px"
+                  borderColor="secondary"
+                  borderStyle="dashed" 
+                >
+                  <Input
+                    type="file"
+                    name="file"
+                    w="100%"
+                    h="100%"
+                    errorBorderColor="red.300"
+                    value={values.file}
+                    onChange={handleChange}
+                    onBlur={onBlur}
+                    position="absolute"
+                    zIndex={2}
+                    opacity="0"
+                  />
+                  <Center
+                    w="100%"
+                    h="100%"
+                    flexDirection="column"
+                    gap={1}
+                  >
+                    <Text>Select Files *</Text>
+                    <Text as="s1">Max 5 files less than 10 mb</Text>
+                  </Center>
+                </Button>
                 <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
+              
             {/* Button */}
             <Button
               variant="outline"
@@ -314,7 +352,7 @@ return (
               w="100%"
               isLoading={isLoading}
               disabled={
-                !values.name || !values.email || !values.subject || !values.message
+                !values.name || !values.email || !values.subject || !values.message || !values.color
               }
               onClick={onSubmit}
             >

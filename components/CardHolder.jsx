@@ -182,7 +182,6 @@ const CardHolder = () => {
         {/* MAIN CARD STACK */}
         <Flex 
           h="100%"
-          maxH="600px"
           w="100%"
           border="1"
           borderTopWidth="2px"
@@ -192,6 +191,16 @@ const CardHolder = () => {
           paddingInline={8}
           paddingBlock={vPadingBP}
         >
+          {/* ARROW ICON */}
+          <Image
+            h="fit-content"
+            w={maxArrowWBP}
+            objectFit='cover'
+            src='/icons/arrow.png'
+            alt='arrow-icon'
+            transform={ArrowRotateBP}
+          />
+          <Spacer/>
 
           {/* CARD - UPLOAD */} 
           <Center
