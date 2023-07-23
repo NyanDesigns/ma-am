@@ -255,7 +255,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your 3D design file in STL format, properly scaled.
+                  your 3D design file in <span style={{ textDecoration: "underline" }}>STL format, properly scaled</span>.
                 </Text>
               </Flex>
             </Flex>
@@ -316,7 +316,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your designs a reality from material of your choice.
+                  your designs a reality from <span style={{ textDecoration: "underline" }}>material of your choice</span>.
                 </Text>
               </Flex>
             </Flex>
@@ -377,7 +377,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your order on anywhere on CPP campus.
+                  your order on anywhere <span style={{ textDecoration: "underline" }}>on CPP campus</span>.
                 </Text>
               </Flex>
             </Flex>
