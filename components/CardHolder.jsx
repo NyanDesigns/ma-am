@@ -1,3 +1,4 @@
+//Imports
 import { 
   Box,
   Center, 
@@ -9,8 +10,10 @@ import {
 } from "@chakra-ui/react";
 import bgH from '../public/bgh.jpg';
 
-const CardHolder = () => {
 
+//App-Function
+const CardHolder = () => {
+  //Values
   const radius = "20px"
   //DISPLAY OPTIONS
   const breakpoint = useBreakpointValue({ base: "base", sm: "sm", md: "md", lg: "lg" });
@@ -193,9 +196,9 @@ const CardHolder = () => {
           paddingBlock={vPadingBP}
         >
           
+          {/* ARROW MOBILE ICON */}
           {breakpoint === "base" || breakpoint === "sm" ? (
             <>
-              {/* ARROW ICON */}
               <Image
                 h="fit-content"
                 w={maxArrowWBP}
@@ -244,7 +247,7 @@ const CardHolder = () => {
                   as="t2"
                   w={maxTextWBP}
                 >
-                  You Upload-
+                  1| You Upload
                 </Text>
                 <Spacer/>
                 {/* SUBTITLE */} 
@@ -252,7 +255,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your 3D design file in the following formats; STL, 3DM.
+                  your 3D design file in STL format, properly scaled.
                 </Text>
               </Flex>
             </Flex>
@@ -305,7 +308,7 @@ const CardHolder = () => {
                   as="t2"
                   w={maxTextWBP}
                 >
-                  We Fabricate-
+                  2| We Make
                 </Text>
                 <Spacer/>
                 {/* SUBTITLE */} 
@@ -313,7 +316,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your 3D design file in the following formats; STL, 3DM.
+                  your designs a reality from material of your choice.
                 </Text>
               </Flex>
             </Flex>
@@ -366,7 +369,7 @@ const CardHolder = () => {
                   as="t2"
                   w={maxTextWBP}
                 >
-                  You Pickup-
+                  3| We Deliver
                 </Text>
                 <Spacer/>
                 {/* SUBTITLE */} 
@@ -374,7 +377,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your 3D design file in the following formats; STL, 3DM.
+                  your order on anywhere on CPP campus.
                 </Text>
               </Flex>
             </Flex>
