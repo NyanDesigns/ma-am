@@ -13,6 +13,7 @@ const CardHolder = () => {
 
   const radius = "20px"
   //DISPLAY OPTIONS
+  const breakpoint = useBreakpointValue({ base: "base", sm: "sm", md: "md", lg: "lg" });
   const vhBP = useBreakpointValue(
     {
       base: '100vh',
@@ -191,16 +192,22 @@ const CardHolder = () => {
           paddingInline={8}
           paddingBlock={vPadingBP}
         >
-          {/* ARROW ICON */}
-          <Image
-            h="fit-content"
-            w={maxArrowWBP}
-            objectFit='cover'
-            src='/icons/arrow.png'
-            alt='arrow-icon'
-            transform={ArrowRotateBP}
-          />
-          <Spacer/>
+          
+          {breakpoint === "base" || breakpoint === "sm" ? (
+            <>
+              {/* ARROW ICON */}
+              <Image
+                h="fit-content"
+                w={maxArrowWBP}
+                objectFit='cover'
+                src='/icons/arrow.png'
+                alt='arrow-icon'
+                transform={ArrowRotateBP}
+                opacity=".75"
+              />
+              <Spacer/>
+            </>
+          ) : null}
 
           {/* CARD - UPLOAD */} 
           <Center

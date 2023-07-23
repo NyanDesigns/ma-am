@@ -20,9 +20,11 @@ import {
   Box,
   Center
 } from "@chakra-ui/react";
+import * as React from "react";
 import { useState } from "react";
 import { sendContactForm } from "../lib/api";
-import * as React from "react";
+import { motion } from 'framer-motion';
+
 
 //Values
 const initValues = { name: "", email: "", subject: "", message: "" };
@@ -52,6 +54,10 @@ export default function Home() {
   const {values, isLoading, error} = state;
   const [touched, setTouched] = useState({});
   const [activeMaterial, setActiveMaterial] = useState({});
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const fileLimit = 5;
+  const fileSizeLimit = 10 * 1024 * 1024; // 10 MB in bytes
 //Functions
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
@@ -63,6 +69,47 @@ export default function Home() {
         [target.name]: target.value,
       },
     }));
+  const fileChange = ({ target }) => {
+
+    setState((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        [target.name]: target.value,
+      },
+    }));
+
+    const file = target.files[0];
+    if (!file) return;
+  
+    // Check if the selected file is within the file size limit
+    if (file.size > fileSizeLimit) {
+      // Show an error message or toast
+      toast({
+        title: "File size exceeds the limit.",
+        status: "error",
+        duration: 2000,
+        position: "top",
+      });
+      return;
+    }
+  
+    // Check if the selectedFiles array reaches the file limit
+    if (selectedFiles.length >= fileLimit) {
+      // Show an error message or toast
+      toast({
+        title: `You can select up to ${fileLimit} files.`,
+        status: "error",
+        duration: 2000,
+        position: "top",
+      });
+      return;
+    }
+  
+    // Add the selected file to the selectedFiles array
+    setSelectedFiles((prevSelectedFiles) => [...prevSelectedFiles, file]);
+  };
+  
   const onSubmit = async () => {
     setState((prev) => ({
       ...prev,
@@ -94,6 +141,28 @@ export default function Home() {
       sm: '275px',
       md: '300px',
       lg: '275px'
+    },
+    {
+      fallback: '250px',
+    },
+  )  
+  const maxCirFanWBP = useBreakpointValue(
+    {
+      base: '125px',
+      sm: '125px',
+      md: '135px',
+      lg: '125px'
+    },
+    {
+      fallback: '250px',
+    },
+  )
+  const maxCirBTWBP = useBreakpointValue(
+    {
+      base: '45px',
+      sm: '45px',
+      md: '50px',
+      lg: '45px'
     },
     {
       fallback: '250px',
@@ -137,6 +206,7 @@ return (
       as="t2"
       fontSize={36}
       textAlign="center"
+      textDecoration="underline"
       textShadow="1px 3px 0px black"
     >
       Start your <br/> Order Now!
@@ -147,15 +217,50 @@ return (
       variant='link'
       onClick={onOpen}
       h="fit-content"
-      w={maxHeaderWBP}
+      w="fit-content"
     >
       {/* HEADER IMAGE */}
       <Image
+        w={maxHeaderWBP}
         objectFit='cover'
-        src='/hero/header.png'
+        src='/hero/header/header.png'
         alt='header'
+      />      
+      {/* CIR FAN IMAGE */}
+      <Center
+        position="absolute"
+        top="15px"
+        zIndex={1}
+      >
+        {/* CIR FAN IMAGE */}
+        <motion.div
+          initial={{ rotate: 0 }}
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+        >
+          {/* CIR FAN IMAGE */}
+          <Image
+            w={maxCirFanWBP}
+            objectFit="cover"
+            src="/hero/header/cir2.png"
+            alt="header"
+          />
+        </motion.div>  
+        {/* CIR FAN IMAGE */}
+      </Center>
+      {/* CIR BT IMAGE */}
+      <Image
+        w={maxCirBTWBP}
+        objectFit='cover'
+        src='/hero/header/icon.png'
+        alt='header'
+        position="absolute"
+        top="55px"
+        zIndex={2}
       />
     </Button>
+    
+    
 
     {/* FORM OVERLAY */}   
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -311,22 +416,24 @@ return (
                 isRequired 
                 mb={5}
                 justifyItems="center"
+                rounded={10}
+                border="2px"
+                borderColor="secondary"
+                borderStyle="dashed" 
               >
                 <Button
                   w="100%"
                   h="75px"
-                  border="2px"
-                  borderColor="secondary"
-                  borderStyle="dashed" 
                 >
                   <Input
                     type="file"
                     name="file"
+                    multiple
                     w="100%"
                     h="100%"
                     errorBorderColor="red.300"
                     value={values.file}
-                    onChange={handleChange}
+                    onChange={fileChange}
                     onBlur={onBlur}
                     position="absolute"
                     zIndex={2}
@@ -338,18 +445,30 @@ return (
                     flexDirection="column"
                     gap={1}
                   >
-                    <Text>Select Files *</Text>
-                    <Text as="s1">Max 5 files less than 10 mb</Text>
+                    <Text>
+                      {selectedFiles.length > 0 ? "Files Selected" : "Select Files *"}
+                    </Text>
+                    <Text as="s1">
+                      {`Selected: ${selectedFiles.length}/${fileLimit}, Max 10 MB each`}
+                    </Text>
                   </Center>
+                </Button>
+                <Button 
+                  onClick={() => setSelectedFiles([])}
+                  w="100%"
+                  variant='outline'
+                >
+                  Clear Files
                 </Button>
                 <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
               
-            {/* Button */}
+            {/* Submit Button */}
             <Button
-              variant="outline"
-              colorScheme="blue"
               w="100%"
+              colorScheme="yellow"
+              border="2px"
+              borderColor="accent"
               isLoading={isLoading}
               disabled={
                 !values.name || !values.email || !values.subject || !values.message || !values.color
@@ -363,6 +482,7 @@ return (
 
       </ModalContent>
     </Modal>
+
 
   </Flex>
   </>
