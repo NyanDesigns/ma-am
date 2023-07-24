@@ -1,4 +1,4 @@
-import { mailOptions, transporter } from "../../config/nodemailer";
+import { email, mailOptions, transporter } from "../../config/nodemailer";
 
 const CONTACT_MESSAGE_FIELDS = {
   name: "Name", 
@@ -35,7 +35,8 @@ const handler = async (req, res) => {
 
     try {
       await transporter.sendMail({
-        ...mailOptions,
+        from: email,
+        to: `${email}, ${data.email}`,
         ...generateEmailContent(data),
         subject: `New ${data.service} Order from ${data.name}`,
       });
