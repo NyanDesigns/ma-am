@@ -24,6 +24,10 @@ import * as React from "react";
 import { useState } from "react";
 import { sendContactForm } from "../lib/api";
 import { motion } from 'framer-motion';
+import { createClient } from "@supabase/supabase-js";
+import { v4 as uuidv4 } from 'uuid';
+// Initialize Supabase client with your Supabase URL and API Key
+const supabase = createClient("https://cgrcxuglhszbrasvyzoa.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNncmN4dWdsaHN6YnJhc3Z5em9hIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MDE4MDY1MywiZXhwIjoyMDA1NzU2NjUzfQ.YZKYBNARsWc6uieKdDBO9PoUhrIeTGHlnzu9Wbi4UVU");
 
 
 //Values
@@ -61,6 +65,21 @@ export default function Home() {
   const fileLimit = 5;
   const fileSizeLimit = 10 * 1024 * 1024; // 10 MB in bytes
 //Functions
+
+const getPublicURL = async (folderName, fileName) => {
+  const { data, error } = await supabase.storage
+    .from("Orders")
+    .getPublicUrl(`${folderName}/${fileName}`, {
+      download: true,
+    });
+
+  if (error) {
+    throw new Error("Failed to get public URL.");
+  }
+
+  return data.publicURL;
+};
+
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
   const handleChange = ({ target }) =>
@@ -117,8 +136,41 @@ export default function Home() {
       isLoading: true,
     }));
     try {
-      await sendContactForm(values);
+      // Upload each selected file to Supabase
+      const fileURLs = [];
+      for (const file of selectedFiles) {
+        const uniqueId = uuidv4();
+        const folderName = values.name.replace(/\s/g, '-');
+        const fileName = file.name + '_' + uniqueId + '_' + file.name;
+        const { data, error } = await supabase.storage
+          .from("Orders")
+          .upload(`${folderName}/${fileName}`, file);
+  
+        if (error) {
+          throw new Error("Failed to upload file.");
+        }
+  
+        const downloadURL = await getPublicURL(folderName, fileName);
+        console.log(downloadURL);
+  
+        fileURLs.push(downloadURL);
+      }
+  
+      // Update the values.file with the URLs of the uploaded files
+      setState((prev) => ({
+        ...prev,
+        values: {
+          ...prev.values,
+          file: fileURLs.join(','), // Join the URLs with commas to create a string
+        },
+      }));
+  
+      console.log(fileURLs);
+  
+      // Send the rest of the form data to the backend
+      await sendContactForm(state.values);
       setTouched({});
+      setSelectedFiles([]);
       setState(initState);
       toast({
         title: "Message sent.",
