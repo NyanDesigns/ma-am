@@ -31,11 +31,13 @@ const initValues = { name: "", email: "", subject: "", message: "" };
 const serviceOptions = [
   {
     name: "3D-Printing",
+    note: "Print-Size: 11in x 11in x 13 in",
     materials: ["PLA", "ABS", "PTEG", "TPU", "Bring your Own"],
     colors: ["White", "Gray", "Black"]
   },
   {
     name: "Laser-Cutting",
+    note: "Print-Size: 11in x 15 in",
     materials: ["Chipboard", "Bring your Own"],
     colors: ["White", "Gray"]
   },
@@ -358,6 +360,11 @@ return (
                     </option>
                   ))}
                 </Select>
+                {values.subject && (
+                  <Text as="s1" paddingLeft={2}>
+                    {serviceOptions.find((option) => option.name === values.subject)?.note}
+                  </Text>
+                )}
                 <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
               {/* Select Material */}
@@ -412,7 +419,7 @@ return (
               {/* File */}
               <FormControl 
                 isRequired 
-                mb={5}
+                mb={4}
                 justifyItems="center"
                 rounded={10}
                 border="2px"
@@ -421,7 +428,7 @@ return (
               >
                 <Button
                   w="100%"
-                  h="75px"
+                  h="65px"
                 >
                   <Input
                     type="file"
@@ -444,10 +451,10 @@ return (
                     gap={1}
                   >
                     <Text>
-                      {selectedFiles.length > 0 ? "Files Selected" : "Select Files *"}
+                      {selectedFiles.length > 0 ? `${selectedFiles.length}/${fileLimit} Files Selected` : "Select Files *"}
                     </Text>
                     <Text as="s1">
-                      {`Selected: ${selectedFiles.length}/${fileLimit} (@ Max 10MB)`}
+                      {`file size limit: 10MB`}
                     </Text>
                   </Center>
                 </Button>
@@ -469,7 +476,7 @@ return (
               borderColor="accent"
               isLoading={isLoading}
               disabled={
-                !values.name || !values.email || !values.subject || !values.message
+                !values.name || !values.email || !values.subject || !values.message || !values.file
               }
               onClick={onSubmit}
             >

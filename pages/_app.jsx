@@ -25,7 +25,8 @@ function MyApp({ Component, pageProps }) {
       {
         loading ?
         <>
-          <div style={{width: "100%", height: "100vh" ,display: "flex", justifyContent: "center", alignItems: "center", background: "#457B9D"}}>
+          {/* LOADING SCREEN */} 
+          <div style={{width: "100vw", height: "100vh" ,display: "flex", justifyContent: "center", alignItems: "center", background: "#457B9D"}}>
           <Loader
           color="#F7B359"
           loading={loading}
