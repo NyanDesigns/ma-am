@@ -259,8 +259,7 @@ return (
         top="55px"
         zIndex={2}
       />
-    </Button>
-    
+    </Button>  
     
 
     {/* FORM OVERLAY */}   
@@ -487,7 +486,6 @@ return (
 
       </ModalContent>
     </Modal>
-
 
   </Flex>
   </>

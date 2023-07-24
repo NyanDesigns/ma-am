@@ -377,7 +377,7 @@ const CardHolder = () => {
                   as="s1"
                   w={maxTextWBP}
                 >
-                  your order on anywhere <span style={{ textDecoration: "underline" }}>on CPP campus</span>.
+                  your order anywhere <span style={{ textDecoration: "underline" }}>on CPP campus</span>.
                 </Text>
               </Flex>
             </Flex>
