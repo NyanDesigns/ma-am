@@ -27,7 +27,7 @@ import { motion } from 'framer-motion';
 
 
 //Values
-const initValues = { name: "", email: "", subject: "", message: "" };
+const initValues = { name: "", email: "",  phone: "", service: "", material: "", color: "", file: ""};
 const serviceOptions = [
   {
     name: "3D-Printing",
@@ -340,13 +340,13 @@ return (
                 />
               </FormControl>        
               {/* Select Service */}
-              <FormControl isRequired isInvalid={touched.subject && !values.subject} >
+              <FormControl isRequired isInvalid={touched.service && !values.service} >
                 <Select 
-                  name="subject"
+                  name="service"
                   placeholder="Select our Service *"
                   errorBorderColor="red.300"
                   variant='filled'
-                  value={values.subject}
+                  value={values.service}
                   onChange={(e) => {
                     handleChange(e);
                     setActiveMaterial(e.target.value);
@@ -359,28 +359,28 @@ return (
                     </option>
                   ))}
                 </Select>
-                {values.subject && (
+                {values.service && (
                   <Text as="s1" paddingLeft={2}>
-                    {serviceOptions.find((option) => option.name === values.subject)?.note}
+                    {serviceOptions.find((option) => option.name === values.service)?.note}
                   </Text>
                 )}
                 <FormErrorMessage>Required</FormErrorMessage>
               </FormControl>
               {/* Select Material */}
-              <FormControl isRequired isInvalid={touched.message && !values.message} >
+              <FormControl isRequired isInvalid={touched.material && !values.material} >
                 <Select 
-                  name="message"
+                  name="material"
                   placeholder="Select a Material *"
                   errorBorderColor="red.300"
                   variant='filled'
-                  value={values.message}
+                  value={values.material}
                   onChange={handleChange}
                   onBlur={onBlur}
                 >
-                  {values.subject && (
+                  {values.service && (
                     <>
                     {serviceOptions
-                      .find((option) => option.name === values.subject)
+                      .find((option) => option.name === values.service)
                       .materials.map((material) => (
                         <option key={material} value={material}>
                           {material}
@@ -402,10 +402,10 @@ return (
                   onChange={handleChange}
                   onBlur={onBlur}
                 >
-                  {values.subject && (
+                  {values.service && (
                     <>
                     {serviceOptions
-                      .find((option) => option.name === values.subject)
+                      .find((option) => option.name === values.service)
                       .colors.map((color) => (
                         <option key={color} value={color}>
                           {color}
@@ -475,7 +475,7 @@ return (
               borderColor="accent"
               isLoading={isLoading}
               disabled={
-                !values.name || !values.email || !values.subject || !values.message || !values.file
+                !values.name || !values.email || !values.service || !values.material || !values.file
               }
               onClick={onSubmit}
             >
