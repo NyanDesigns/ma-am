@@ -1,6 +1,6 @@
 //Import
 import React, { useState, useEffect } from "react";
-import { ChakraProvider, Flex } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import theme from "../config/theme";
 import Loader from "react-spinners/BounceLoader";
 

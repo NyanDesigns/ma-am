@@ -18,7 +18,8 @@ import {
   useDisclosure,
   useBreakpointValue,
   Box,
-  Center
+  Center,
+  Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useState } from "react";
@@ -64,6 +65,7 @@ export default function Home() {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const fileLimit = 5;
   const fileSizeLimit = 10 * 1024 * 1024; // 10 MB in bytes
+  const [tabIndex, setTabIndex] = useState(0);
 //Functions
 
 const getPublicURL = async (folderName, fileName) => {
@@ -215,7 +217,7 @@ const getPublicURL = async (folderName, fileName) => {
       base: '45px',
       sm: '45px',
       md: '50px',
-      lg: '45px'
+      lg: '50px'
     },
     {
       fallback: '250px',
@@ -256,62 +258,168 @@ return (
 
     {/* TITLE */} 
     <Text 
-      as="t2"
-      fontSize={36}
+      as="t2-selected"
       textAlign="center"
-      textDecoration="underline"
-      textShadow="1px 3px 0px black"
     >
-      Start your <br/> Order Now!
+      Start your
     </Text>
 
-    {/* HEADER BUTTON IMAGE */}
-    <Button 
-      variant='link'
-      onClick={onOpen}
-      h="fit-content"
-      w="fit-content"
-    >
-      {/* HEADER IMAGE */}
-      <Image
-        w={maxHeaderWBP}
-        objectFit='cover'
-        src='/hero/header/header.png'
-        alt='header'
-      />      
-      {/* CIR FAN IMAGE */}
-      <Center
-        position="absolute"
-        top="15px"
-        zIndex={1}
-      >
-        {/* CIR FAN IMAGE */}
-        <motion.div
-          initial={{ rotate: 0 }}
-          animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
-        >
-          {/* CIR FAN IMAGE */}
-          <Image
-            w={maxCirFanWBP}
-            objectFit="cover"
-            src="/hero/header/cir2.png"
-            alt="header"
-          />
-        </motion.div>  
-        {/* CIR FAN IMAGE */}
-      </Center>
-      {/* CIR BT IMAGE */}
-      <Image
-        w={maxCirBTWBP}
-        objectFit='cover'
-        src='/hero/header/icon.png'
-        alt='header'
-        position="absolute"
-        top="55px"
-        zIndex={2}
-      />
-    </Button>  
+    {/* TABS - order/quote */} 
+    <Tabs align='center' size="" variant="unstyled" index={tabIndex} onChange={(index) => setTabIndex(index)}>
+      <TabList>
+        {/* Animated TAB - Quote */}
+        <Tab>   
+          <motion.div
+            animate={{
+              y: [ 0, -5, 0],
+            }}
+            transition={{
+              duration: .6,
+              delay: 2
+            }}
+          >
+            <Text 
+              as={tabIndex === 0 ? "t2-selected" : "t2"}
+              textAlign="center"
+              px={5}
+            >
+              Quote
+            </Text>
+          </motion.div>
+        </Tab>
+        {/* Animated TAB - Order */}
+        <Tab>  
+          <motion.div
+            animate={{
+              y: [ 0, -5, 0],
+            }}
+            transition={{
+              duration: .8,
+              delay: 3
+            }}
+          >
+            <Text 
+              as={tabIndex === 1 ? "t2-selected" : "t2"}
+              textAlign="center"
+              px={5}
+            >
+              Order
+            </Text>
+          </motion.div>
+        </Tab>
+      </TabList>
+
+      {/* TAB INDICATOR */}
+      <TabIndicator
+        height="4px"
+        bg="accent"
+        borderRadius="full"
+        shadow= "1px 3px 0px black"
+      />   
+
+      <TabPanels>
+        <TabPanel>
+                
+          {/* HEADER BUTTON IMAGE */}
+          <Button 
+            variant='link'
+            onClick={onOpen}
+            h="fit-content"
+            w="fit-content"
+          >
+            {/* HEADER IMAGE */}
+            <Image
+              w={maxHeaderWBP}
+              objectFit='cover'
+              src='/hero/header/header.png'
+              alt='header'
+            />      
+            {/* CIR FAN IMAGE */}
+            <Center
+              position="absolute"
+              top="15px"
+              zIndex={1}
+            >
+              {/* CIR FAN IMAGE */}
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+              >
+                {/* CIR FAN IMAGE */}
+                <Image
+                  w={maxCirFanWBP}
+                  objectFit="cover"
+                  src="/hero/header/cir2.png"
+                  alt="header"
+                />
+              </motion.div>  
+            </Center>
+            {/* CIR BT IMAGE */}
+            <Image
+              w={maxCirBTWBP}
+              objectFit='cover'
+              src='/hero/header/icon.png'
+              alt='header'
+              position="absolute"
+              top="55px"
+              zIndex={2}
+            />
+          </Button> 
+                
+        </TabPanel>
+        <TabPanel>
+                
+          {/* HEADER BUTTON IMAGE */}
+          <Button 
+            variant='link'
+            onClick={onOpen}
+            h="fit-content"
+            w="fit-content"
+          >
+            {/* HEADER IMAGE */}
+            <Image
+              w={maxHeaderWBP}
+              objectFit='cover'
+              src='/hero/header/header.png'
+              alt='header'
+            />      
+            {/* CIR FAN IMAGE */}
+            <Center
+              position="absolute"
+              top="15px"
+              zIndex={1}
+            >
+              {/* CIR FAN IMAGE */}
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+              >
+                {/* CIR FAN IMAGE */}
+                <Image
+                  w={maxCirFanWBP}
+                  objectFit="cover"
+                  src="/hero/header/cir2.png"
+                  alt="header"
+                />
+              </motion.div>  
+            </Center>
+            {/* CIR BT IMAGE */}
+            <Image
+              w={maxCirBTWBP}
+              objectFit='cover'
+              src='/hero/header/icon2.png'
+              alt='header'
+              position="absolute"
+              top="55px"
+              zIndex={2}
+            />
+          </Button>
+
+        </TabPanel>
+      </TabPanels>
+    </Tabs> 
     
 
     {/* FORM OVERLAY */}   

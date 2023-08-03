@@ -187,8 +187,6 @@ const CardHolder = () => {
         <Flex 
           h="100%"
           w="100%"
-          border="1"
-          borderTopWidth="2px"
           alignItems="center"
           flexDirection={stackFlex}
           gap={smGapSpacingBP}

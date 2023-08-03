@@ -12,7 +12,7 @@ const theme = extendTheme({
   config,
   colors:{
     light:"#F1FAEE",
-    dark:"1A1C23",
+    dark:"#1A1C23",
     primary:"#072534",
     secondary:"#457B9D",
     accent: "#F7B359",
@@ -49,6 +49,17 @@ const theme = extendTheme({
         lineHeight: "1.2",
         color: "accent",
         opacity: ".75",
+      },
+      "t2-selected": {
+        fontFamily: "Roboto Condensed",
+        fontWeight: "500",
+        fontSize: "xxl",
+        color: "light",
+        letterSpacing: "0.05em",
+        lineHeight: "1.2",
+        color: "accent",
+        opacity: "1",
+        textShadow: "1px 3px 0px black"
       },
       "s1": {
         fontFamily: "Roboto Flex Variable",
