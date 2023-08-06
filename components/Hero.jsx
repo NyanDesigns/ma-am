@@ -1,4 +1,4 @@
-import { Flex, Box, Center, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Center, useBreakpointValue } from "@chakra-ui/react";
 import bg from '../public/bg.jpg';
 
 const AppContainer = ({ children }) => {

@@ -17,7 +17,7 @@ const theme = extendTheme({
     secondary:"#457B9D",
     accent: "#F7B359",
     success: "#48BB78",
-    error: "#F56565"
+    error: "#CB6780"
   },
   fonts: {
     heading: 'Roboto Condensed',
@@ -26,7 +26,7 @@ const theme = extendTheme({
   fontSizes: {
     xs: "12px",
     sm: "14px",
-    md: "16px",
+    md: "18px",
     lg: "24px",
     xl: "30px",
     xxl: "36px",
@@ -54,11 +54,9 @@ const theme = extendTheme({
         fontFamily: "Roboto Condensed",
         fontWeight: "500",
         fontSize: "xxl",
-        color: "light",
         letterSpacing: "0.05em",
         lineHeight: "1.2",
         color: "accent",
-        opacity: "1",
         textShadow: "1px 3px 0px black"
       },
       "s1": {
@@ -76,6 +74,13 @@ const theme = extendTheme({
         color: "light",
         lineHeight: "1.25",
         opacity: ".75",
+      },
+      "s3": {
+        fontFamily: "Roboto Flex Variable",
+        fontWeight: "500",
+        fontSize: "md",
+        lineHeight: "1.2",
+        color: "dark"
       },
     },
   },

@@ -17,7 +17,6 @@ import {
   Button,
   useDisclosure,
   useBreakpointValue,
-  Box,
   Center,
   Tabs, TabList, TabPanels, Tab, TabPanel, TabIndicator
 } from "@chakra-ui/react";
@@ -66,22 +65,21 @@ export default function Home() {
   const fileLimit = 5;
   const fileSizeLimit = 10 * 1024 * 1024; // 10 MB in bytes
   const [tabIndex, setTabIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 //Functions
+  const getPublicURL = async (folderName, fileName) => {
+    const { data, error } = await supabase.storage
+      .from("Orders")
+      .getPublicUrl(`${folderName}/${fileName}`, {
+        download: true,
+      });
 
-const getPublicURL = async (folderName, fileName) => {
-  const { data, error } = await supabase.storage
-    .from("Orders")
-    .getPublicUrl(`${folderName}/${fileName}`, {
-      download: true,
-    });
+    if (error) {
+      throw new Error("Failed to get public URL.");
+    }
 
-  if (error) {
-    throw new Error("Failed to get public URL.");
-  }
-
-  return data.publicURL;
-};
-
+    return data.publicURL;
+  };
   const onBlur = ({ target }) =>
     setTouched((prev) => ({ ...prev, [target.name]: true }));
   const handleChange = ({ target }) =>
@@ -93,7 +91,6 @@ const getPublicURL = async (folderName, fileName) => {
       },
     }));
   const fileChange = ({ target }) => {
-
     setState((prev) => ({
       ...prev,
       values: {
@@ -212,17 +209,6 @@ const getPublicURL = async (folderName, fileName) => {
       fallback: '250px',
     },
   )
-  const maxCirBTWBP = useBreakpointValue(
-    {
-      base: '45px',
-      sm: '45px',
-      md: '50px',
-      lg: '50px'
-    },
-    {
-      fallback: '250px',
-    },
-  )
   const maxCabelWBP = useBreakpointValue(
     {
       base: '150px',
@@ -256,173 +242,404 @@ return (
       alt='header'
     />
 
-    {/* TITLE */} 
-    <Text 
-      as="t2-selected"
-      textAlign="center"
+    <Flex 
+      h="fit-content"
+      alignItems="center" 
+      flexDirection="column"
     >
-      Start your
-    </Text>
 
-    {/* TABS - order/quote */} 
-    <Tabs align='center' size="" variant="unstyled" index={tabIndex} onChange={(index) => setTabIndex(index)}>
-      <TabList>
-        {/* Animated TAB - Quote */}
-        <Tab>   
-          <motion.div
-            animate={{
-              y: [ 0, -5, 0],
-            }}
-            transition={{
-              duration: .6,
-              delay: 2
-            }}
-          >
-            <Text 
-              as={tabIndex === 0 ? "t2-selected" : "t2"}
-              textAlign="center"
-              px={5}
+      {/* TITLE */} 
+      <Text 
+        as="t2-selected"
+        textAlign="center"
+      >
+        {tabIndex === 0 ? "Get your Free" : "Start your"}
+      </Text>
+      {/* TABS CONTAINER */} 
+        <Tabs 
+        align='center' 
+        size="" 
+        variant="unstyled" 
+        index={tabIndex} 
+        onChange={(index) => setTabIndex(index)}
+      >
+        {/* TABS  - order/quote */} 
+        <TabList>
+          {/* Animated TAB - Quote */}
+          <Tab>   
+            <motion.div
+              animate={{
+                y: [ 0, -5, 0],
+              }}
+              transition={{
+                duration: .6,
+                delay: 2
+              }}
             >
-              Quote
-            </Text>
-          </motion.div>
-        </Tab>
-        {/* Animated TAB - Order */}
-        <Tab>  
-          <motion.div
-            animate={{
-              y: [ 0, -5, 0],
-            }}
-            transition={{
-              duration: .8,
-              delay: 3
-            }}
-          >
-            <Text 
-              as={tabIndex === 1 ? "t2-selected" : "t2"}
-              textAlign="center"
-              px={5}
-            >
-              Order
-            </Text>
-          </motion.div>
-        </Tab>
-      </TabList>
-
-      {/* TAB INDICATOR */}
-      <TabIndicator
-        height="4px"
-        bg="accent"
-        borderRadius="full"
-        shadow= "1px 3px 0px black"
-      />   
-
-      <TabPanels>
-        <TabPanel>
-                
-          {/* HEADER BUTTON IMAGE */}
-          <Button 
-            variant='link'
-            onClick={onOpen}
-            h="fit-content"
-            w="fit-content"
-          >
-            {/* HEADER IMAGE */}
-            <Image
-              w={maxHeaderWBP}
-              objectFit='cover'
-              src='/hero/header/header.png'
-              alt='header'
-            />      
-            {/* CIR FAN IMAGE */}
-            <Center
-              position="absolute"
-              top="15px"
-              zIndex={1}
-            >
-              {/* CIR FAN IMAGE */}
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+              <Text 
+                as={tabIndex === 0 ? "t2-selected" : "t2"}
+                textAlign="center"
+                px={5}
               >
-                {/* CIR FAN IMAGE */}
-                <Image
-                  w={maxCirFanWBP}
-                  objectFit="cover"
-                  src="/hero/header/cir2.png"
-                  alt="header"
-                />
-              </motion.div>  
-            </Center>
-            {/* CIR BT IMAGE */}
-            <Image
-              w={maxCirBTWBP}
-              objectFit='cover'
-              src='/hero/header/icon.png'
-              alt='header'
-              position="absolute"
-              top="55px"
-              zIndex={2}
-            />
-          </Button> 
-                
-        </TabPanel>
-        <TabPanel>
-                
-          {/* HEADER BUTTON IMAGE */}
-          <Button 
-            variant='link'
-            onClick={onOpen}
-            h="fit-content"
-            w="fit-content"
-          >
-            {/* HEADER IMAGE */}
-            <Image
-              w={maxHeaderWBP}
-              objectFit='cover'
-              src='/hero/header/header.png'
-              alt='header'
-            />      
-            {/* CIR FAN IMAGE */}
-            <Center
-              position="absolute"
-              top="15px"
-              zIndex={1}
+                {tabIndex === 0 ? "Quote" : "Quote or"}
+              </Text>
+            </motion.div>
+          </Tab>
+          {/* Animated TAB - Order */}
+          <Tab>  
+            <motion.div
+              animate={{
+                y: [ 0, -5, 0],
+              }}
+              transition={{
+                duration: .8,
+                delay: 3
+              }}
             >
-              {/* CIR FAN IMAGE */}
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+              <Text 
+                as={tabIndex === 1 ? "t2-selected" : "t2"}
+                textAlign="center"
+                px={5}
               >
-                {/* CIR FAN IMAGE */}
-                <Image
-                  w={maxCirFanWBP}
-                  objectFit="cover"
-                  src="/hero/header/cir2.png"
-                  alt="header"
-                />
-              </motion.div>  
-            </Center>
-            {/* CIR BT IMAGE */}
-            <Image
-              w={maxCirBTWBP}
-              objectFit='cover'
-              src='/hero/header/icon2.png'
-              alt='header'
-              position="absolute"
-              top="55px"
-              zIndex={2}
-            />
-          </Button>
+                {tabIndex === 1 ? "Order" : "or Order"}
+              </Text>
+            </motion.div>
+          </Tab>
+        </TabList>
+        {/* TAB INDICATOR */}
+        <TabIndicator
+          height="4px"
+          bg="accent"
+          borderRadius="full"
+          shadow= "1px 3px 0px black"
+        />   
+        {/* TABS PANELS CONTAINER */} 
+        <TabPanels
+        mb="-6"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        >
+          {/* TAB PANEL 1 - QUOTE */}
+          <TabPanel>
+                  
+            {/* HEADER BUTTON IMAGE */}
+            <Button 
+              variant='link'
+              onClick={onOpen}
+              h="fit-content"
+              w="fit-content"
+            >
+              {/* HEADER IMAGE */}
+              <Image
+                w={maxHeaderWBP}
+                objectFit='cover'
+                src='/hero/header/header.png'
+                alt='header'
+              />      
+              {/* CIR FAN IMAGE */}
+              <Center
+                w="100%"
+                h="100%"
+                paddingBottom={8}
+                position="absolute"
+                zIndex={1}
+              >
+                {/* Rotating IMAGE */}
+                <motion.div
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+                >
+                  {/* IMAGE */}
+                  <Image
+                    w={maxCirFanWBP}
+                    objectFit="cover"
+                    src="/hero/header/cir2.png"
+                    alt="header"
+                  />
+                </motion.div>  
+              </Center>
+              {/* CIR BT LABEL */}
+              <Center
+                w="100%"
+                h="100%"
+                paddingBottom={7}
+                position="absolute"
+                zIndex={2}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                {/* LABEL - UPLOAD FILES */}
+                <motion.div
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{
+                    opacity: isHovered ? 0 : 1,
+                    y: isHovered ? -10 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: isHovered ? .25 : .5 }}
+                >
+                  {/* LABEL - UPLOAD */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 4,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Upload
+                    </Text>
+                  </motion.div>
+                  {/* LABEL - FILES */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 5,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Files
+                    </Text>
+                  </motion.div>
+                </motion.div>
+              </Center>
 
-        </TabPanel>
-      </TabPanels>
-    </Tabs> 
+              <Center
+                w="100%"
+                h="100%"
+                paddingBottom={7}
+                position="absolute"
+                zIndex={2}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                
+                {/* LABEL - SUBMIT QUOTE */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{
+                    opacity: isHovered ? 1 : 0,
+                    y: isHovered ? 0 : 10,
+                  }}
+                  transition={{ duration: 0.5, delay: isHovered ? .5 : .25 }}
+                >
+                  {/* LABEL - SUBMIT */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 4,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Submit
+                    </Text>
+                  </motion.div>
+                  {/* LABEL - QUOTE */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 5,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Quote
+                    </Text>
+                  </motion.div>
+                </motion.div>
+              </Center>
+              
+            </Button> 
+                  
+          </TabPanel>
+          {/* TAB PANEL 2 - ORDER */}
+          <TabPanel>
+                  
+            {/* HEADER BUTTON IMAGE */}
+            <Button 
+              variant='link'
+              onClick={onOpen}
+              h="fit-content"
+              w="fit-content"
+            >
+              {/* HEADER IMAGE */}
+              <Image
+                w={maxHeaderWBP}
+                objectFit='cover'
+                src='/hero/header/header.png'
+                alt='header'
+              />      
+              {/* CIR FAN IMAGE */}
+              <Center
+                w="100%"
+                h="100%"
+                paddingBottom={8}
+                position="absolute"
+                zIndex={1}
+              >
+                {/* Rotating IMAGE */}
+                <motion.div
+                  initial={{ rotate: 0 }}
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
+                >
+                  {/* IMAGE */}
+                  <Image
+                    w={maxCirFanWBP}
+                    objectFit="cover"
+                    src="/hero/header/cir2.png"
+                    alt="header"
+                  />
+                </motion.div>  
+              </Center>
+              {/* CIR BT LABEL */}
+              <Center
+                w="100%"
+                h="100%"
+                paddingBottom={7}
+                position="absolute"
+                zIndex={2}
+              >
+                {/* LABEL - UPLOAD FILES */}
+                <motion.div
+                  initial={{ opacity: 1, y: 0 }}
+                  animate={{
+                    opacity: isHovered ? 0 : 1,
+                    y: isHovered ? -10 : 0,
+                  }}
+                  transition={{ duration: 0.5, delay: isHovered ? .15 : .35 }}
+                >
+                  {/* LABEL - UPLOAD */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 4,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Upload
+                    </Text>
+                  </motion.div>
+                  {/* LABEL - FILES */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 5,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Files
+                    </Text>
+                  </motion.div>
+                </motion.div>
+              </Center>
+
+              <Center
+                w="100%"
+                h="100%"
+                paddingBottom={7}
+                position="absolute"
+                zIndex={2}
+              >
+                
+                {/* LABEL - SUBMIT QUOTE */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{
+                    opacity: isHovered ? 1 : 0,
+                    y: isHovered ? 0 : 10,
+                  }}
+                  transition={{ duration: 0.5, delay: isHovered ? .35 : .15 }}
+                >
+                  {/* LABEL - SUBMIT */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 4,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Submit
+                    </Text>
+                  </motion.div>
+                  {/* LABEL - QUOTE */}
+                  <motion.div
+                    animate={{
+                      x: [ 0, 2, 0],
+                    }}
+                    transition={{
+                      duration: 1,
+                      delay: 5,
+                      repeat: Infinity, 
+                      repeatDelay: 3
+                    }}
+                  >
+                    <Text 
+                      as="s3"
+                    >
+                      Order
+                    </Text>
+                  </motion.div>
+                </motion.div>
+              </Center>
+              
+            </Button> 
+
+          </TabPanel>
+        </TabPanels>
+      </Tabs> 
+
+    </Flex>
     
 
-    {/* FORM OVERLAY */}   
+    {/* FORM OVERLAY */}
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent
@@ -440,7 +657,7 @@ return (
         {/* HEADER - TITLE AND CLOSE BUTTON */}   
         <ModalHeader>
           {/* Form Heading */}
-          <Text as="t2" mb={4} opacity= "1">Order Details</Text>
+          <Text as="t2" mb={4} opacity= "1">{tabIndex === 0 ? "Quote Details" : "Order Details"}</Text>
           <ModalCloseButton />
         </ModalHeader>
 
